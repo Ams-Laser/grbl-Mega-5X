@@ -180,7 +180,7 @@ void digital_set_state(uint8_t mode)
       DIGITAL_OUTPUT_PORT_1 |= (1 << DIGITAL_OUTPUT_BIT_1);
     #endif
   } else {
-    #ifdef INVERT_DIGITAL_OUTPUT_PIN_0
+    #ifdef INVERT_DIGITAL_OUTPUT_PIN_1
       DIGITAL_OUTPUT_PORT_1 |= (1 << DIGITAL_OUTPUT_BIT_1);
     #else
       DIGITAL_OUTPUT_PORT_1 &= ~(1 << DIGITAL_OUTPUT_BIT_1);
