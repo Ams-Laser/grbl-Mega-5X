@@ -52,8 +52,8 @@
 // unpredictable behavior!
 //----------------------------------------------------------------------
 
-#define N_AXIS 5        // Number of axes (3 to 6)
-#define N_AXIS_LINEAR 3 // Number of linears axis, must be <= N_AXIS
+#define N_AXIS 6        // Number of axes (3 to 6)
+#define N_AXIS_LINEAR 5 // Number of linears axis, must be <= N_AXIS
 
 // Axis indexing and names
 #define AXIS_1 0        // Axis indexing value. Must start with 0 and be continuous.
@@ -67,15 +67,15 @@
 #endif
 #if N_AXIS > 3
   #define AXIS_4 3
-  #define AXIS_4_NAME 'A' // Letter of axis number 4
+  #define AXIS_4_NAME 'X' // Letter of axis number 4
 #endif
 #if N_AXIS > 4
   #define AXIS_5 4
-  #define AXIS_5_NAME 'B' // Letter of axis number 5
+  #define AXIS_5_NAME 'Y' // Letter of axis number 5
 #endif
 #if N_AXIS > 5
   #define AXIS_6 5
-  #define AXIS_6_NAME 'C' // Letter of axis number 6
+  #define AXIS_6_NAME 'A' // Letter of axis number 6
 #endif
 #if N_AXIS > 6
   #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
@@ -87,8 +87,8 @@
 // Uncomment to enable sorting of axis values by axis_names rather than by axis number. Default disabled.
 // If this option is enabled, the sorting order will be X, Y, Z, U, V, W, A, B, C, D, E & H 
 // as defined below.
-//#define SORT_REPORT_BY_AXIS_NAME
-//#define AXIS_NAME_SORT_ORDER {'X', 'Y', 'Z', 'U', 'V', 'W', 'A', 'B', 'C', 'D', 'E', 'H'}
+#define SORT_REPORT_BY_AXIS_NAME
+#define AXIS_NAME_SORT_ORDER {'X', 'Y', 'Z', 'U', 'V', 'W', 'A', 'B', 'C', 'D', 'E', 'H'}
 
 #ifdef SORT_REPORT_BY_AXIS_NAME
   #ifndef AXIS_NAME_SORT_ORDER
@@ -99,7 +99,7 @@
 // By default, Grbl report all values of each axis. When cloning axis with more than one axis with
 // the same name, Grbl reports the values several times for the same axis_name if it is cloned.
 // Uncomment to enable report of axis values only one time by axis_names in case of clones axis.
-//#define REPORT_VALUE_FOR_AXIS_NAME_ONCE
+#define REPORT_VALUE_FOR_AXIS_NAME_ONCE
 
 #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
   #ifndef SORT_REPORT_BY_AXIS_NAME
@@ -120,8 +120,8 @@
 // SPINDLE_PWM_ON_D9  => 0-12v 8 bits PWM on RAMPS D9
 // SPINDLE_PWM_ON_D6  => 0-5v 8bits PWM on RAMPS Servo 2 signal (Mega 2560 D6)
 // Uncomment the line which correspond to your hardware
-#define SPINDLE_PWM_ON_D8
-//#define SPINDLE_PWM_ON_D6
+//#define SPINDLE_PWM_ON_D8
+#define SPINDLE_PWM_ON_D6
 //#define SPINDLE_PWM_ON_D9
 
 // Spindle PWM signal inversion:
@@ -252,8 +252,9 @@
   //#define HOMING_CYCLE_3 (1<<AXIS_4) // Home 4th axis (A)
   //#define HOMING_CYCLE_4 (1<<AXIS_5) // Home 5th axis (B)
 #elif N_AXIS == 6 // 6 axis : homing
-  #define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
-  #define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))     // OPTIONAL: uncomment to move X,Y at the same time.
+  #define HOMING_CYCLE_0 ((1<<AXIS_1)|(1<<AXIS_2)|(1<<AXIS_4)|(1<<AXIS_5)) //home xy and xy clones simultaneusly, 
+  //#define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
+  //#define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))     // OPTIONAL: uncomment to move X,Y at the same time.
   //#define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis  // OPTIONAL: uncomment to move only X at a time.
   //#define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis  // OPTIONAL: uncomment to move only Y at a time.
   //#define HOMING_CYCLE_3 (1<<AXIS_4) // Home 4th axis (A)
@@ -275,7 +276,7 @@
 // Number of homing cycles performed after when the machine initially jogs to limit switches.
 // This help in preventing overshoot and should improve repeatability. This value should be one or
 // greater.
-#define N_HOMING_LOCATE_CYCLE 1 // Integer (1-128)
+#define N_HOMING_LOCATE_CYCLE 2 // Integer (1-128)
 
 // Enables single axis homing commands. $HX, $HY, and $HZ for X, Y, and Z-axis homing. The full homing
 // cycle is still invoked by the $H command. This is disabled by default. It's here only to address
@@ -286,7 +287,7 @@
 // After homing, Grbl will set by default the entire machine space into negative space, as is typical
 // for professional CNC machines, regardless of where the limit switches are located. Uncomment this
 // define to force Grbl to always set the machine origin at the homed location despite switch orientation.
-// #define HOMING_FORCE_SET_ORIGIN // Uncomment to enable.
+#define HOMING_FORCE_SET_ORIGIN // Uncomment to enable.
 
 // Number of blocks Grbl executes upon startup. These blocks are stored in EEPROM, where the size
 // and addresses are defined in settings.h. With the current settings, up to 2 startup blocks may
@@ -299,12 +300,12 @@
 // values cannot be less than 0.001mm or 0.0001in, because machines can not be physically more
 // precise this. So, there is likely no need to change these, but you can if you need to here.
 // NOTE: Must be an integer value from 0 to ~4. More than 4 may exhibit round-off errors.
-#define N_DECIMAL_COORDVALUE_INCH 4 // Coordinate or position value in inches
-#define N_DECIMAL_COORDVALUE_MM   3 // Coordinate or position value in mm
+#define N_DECIMAL_COORDVALUE_INCH 3 // Coordinate or position value in inches
+#define N_DECIMAL_COORDVALUE_MM   2 // Coordinate or position value in mm
 #define N_DECIMAL_RATEVALUE_INCH  1 // Rate or velocity value in in/min
-#define N_DECIMAL_RATEVALUE_MM    0 // Rate or velocity value in mm/min
+#define N_DECIMAL_RATEVALUE_MM    2 // Rate or velocity value in mm/min
 #define N_DECIMAL_SETTINGVALUE    3 // Decimals for floating point setting values
-#define N_DECIMAL_RPMVALUE        0 // RPM value in rotations per min.
+#define N_DECIMAL_RPMVALUE        2 // RPM value in rotations per min.
 
 // If your machine has two limits switches wired in parallel to one axis, you will need to enable
 // this feature. Since the two switches are sharing a single pin, there is no way for Grbl to tell
@@ -321,7 +322,7 @@
 
 // After the safety door switch has been toggled and restored, this setting sets the power-up delay
 // between restoring the spindle and coolant and resuming the cycle.
-#define SAFETY_DOOR_SPINDLE_DELAY 4.0 // Float (seconds)
+#define SAFETY_DOOR_SPINDLE_DELAY 1.0 // Float (seconds)
 #define SAFETY_DOOR_COOLANT_DELAY 1.0 // Float (seconds)
 
 // Enable CoreXY kinematics. Use ONLY with CoreXY machines.
@@ -357,7 +358,7 @@
 
 // Inverts the spindle enable pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
 // for some pre-built electronic boards.
-//#define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
+#define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
 
 // Inverts the selected coolant pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
 // for some pre-built electronic boards.
@@ -366,14 +367,14 @@
 
 // Inverts the selected digital output pin from low-disabled/high-enabled to low-enabled/high-disabled.
 // Useful for some pre-built electronic boards.
-//#define INVERT_DIGITAL_OUTPUT_PIN_0 // Default disabled. Uncomment to enable.
-//#define INVERT_DIGITAL_OUTPUT_PIN_1 // Default disabled. Uncomment to enable.
-//#define INVERT_DIGITAL_OUTPUT_PIN_2 // Default disabled. Uncomment to enable.
-//#define INVERT_DIGITAL_OUTPUT_PIN_3 // Default disabled. Uncomment to enable.
+#define INVERT_DIGITAL_OUTPUT_PIN_0 // Default disabled. Uncomment to enable.
+#define INVERT_DIGITAL_OUTPUT_PIN_1 // Default disabled. Uncomment to enable.
+#define INVERT_DIGITAL_OUTPUT_PIN_2 // Default disabled. Uncomment to enable.
+#define INVERT_DIGITAL_OUTPUT_PIN_3 // Default disabled. Uncomment to enable.
 
 // Digital inputs: Uncomment the folloing line to enable the use of up to
 // 4 digital input pins. Digital inputs work in the same way as the other input 
-//#define USE_DIGITAL_INPUT // Default disabled. Uncomment to enable.
+#define USE_DIGITAL_INPUT // Default disabled. Uncomment to enable.
 
 // pins (probe, safety door, cycle start, reset, feed hold). 
 // Invert the digital input status. Default is normaly open switch between pin
@@ -407,8 +408,8 @@
 // allowable override values and the coarse and fine increments per command received. Please
 // note the allowable values in the descriptions following each define.
 #define DEFAULT_FEED_OVERRIDE           100 // 100%. Don't change this value.
-#define MAX_FEED_RATE_OVERRIDE          200 // Percent of programmed feed rate (100-255). Usually 120% or 200%
-#define MIN_FEED_RATE_OVERRIDE           10 // Percent of programmed feed rate (1-100). Usually 50% or 1%
+#define MAX_FEED_RATE_OVERRIDE          250 // Percent of programmed feed rate (100-255). Usually 120% or 200%
+#define MIN_FEED_RATE_OVERRIDE           1 // Percent of programmed feed rate (1-100). Usually 50% or 1%
 #define FEED_OVERRIDE_COARSE_INCREMENT   10 // (1-99). Usually 10%.
 #define FEED_OVERRIDE_FINE_INCREMENT      1 // (1-99). Usually 1%.
 
@@ -417,8 +418,8 @@
 #define RAPID_OVERRIDE_LOW       25 // Percent of rapid (1-99). Usually 25%.
 
 #define DEFAULT_SPINDLE_SPEED_OVERRIDE    100 // 100%. Don't change this value.
-#define MAX_SPINDLE_SPEED_OVERRIDE        200 // Percent of programmed spindle speed (100-255). Usually 200%.
-#define MIN_SPINDLE_SPEED_OVERRIDE         10 // Percent of programmed spindle speed (1-100). Usually 10%.
+#define MAX_SPINDLE_SPEED_OVERRIDE        250 // Percent of programmed spindle speed (100-255). Usually 200%.
+#define MIN_SPINDLE_SPEED_OVERRIDE         1 // Percent of programmed spindle speed (1-100). Usually 10%.
 #define SPINDLE_OVERRIDE_COARSE_INCREMENT  10 // (1-99). Usually 10%.
 #define SPINDLE_OVERRIDE_FINE_INCREMENT     1 // (1-99). Usually 1%.
 
