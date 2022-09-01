@@ -534,19 +534,19 @@
 // limits or angle between neighboring block line move directions. This is useful for machines that can't
 // tolerate the tool dwelling for a split second, i.e. 3d printers or laser cutters. If used, this value
 // should not be much greater than zero or to the minimum value necessary for the machine to work.
-#define MINIMUM_JUNCTION_SPEED 0.0 // (mm/min)
+#define MINIMUM_JUNCTION_SPEED 60.0 // (mm/min)
 
 // Sets the minimum feed rate the planner will allow. Any value below it will be set to this minimum
 // value. This also ensures that a planned motion always completes and accounts for any floating-point
 // round-off errors. Although not recommended, a lower value than 1.0 mm/min will likely work in smaller
 // machines, perhaps to 0.1mm/min, but your success may vary based on multiple factors.
-#define MINIMUM_FEED_RATE 1.0 // (mm/min)
+#define MINIMUM_FEED_RATE 60.0 // (mm/min)
 
 // Number of arc generation iterations by small angle approximation before exact arc trajectory
 // correction with expensive sin() and cos() calcualtions. This parameter maybe decreased if there
 // are issues with the accuracy of the arc generations, or increased if arc execution is getting
 // bogged down by too many trig calculations.
-#define N_ARC_CORRECTION 12 // Integer (1-255)
+#define N_ARC_CORRECTION 24 // Integer (1-255)
 
 // The arc G2/3 g-code standard is problematic by definition. Radius-based arcs have horrible numerical
 // errors when arc at semi-circles(pi) or full-circles(2*pi). Offset-based arcs are much more accurate
