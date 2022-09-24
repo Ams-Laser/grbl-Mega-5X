@@ -548,9 +548,11 @@ uint8_t gc_execute_line(char *line)
   // bit_false(value_dwords,dwbit(DWORD_S)); // NOTE: Single-meaning value word. Set at end of error-checking.
 
   #ifdef USE_OUTPUT_PWM
-    // [4.bis Set output PWM value]: Q value missing, Q is negative (done.)
-    if (bit_isfalse(value_dwords,dwbit(DWORD_Q))) { FAIL(STATUS_GCODE_VALUE_WORD_MISSING); } // [Q word missing]
-    // bit_false(value_dwords,dwbit(DWORD_Q)); // NOTE: Single-meaning value word. Set at end of error-checking.
+    if (dword_bit == MODAL_GROUP_M11) {
+      // [4.bis Set output PWM value]: Q value missing, Q is negative (done.)
+      if (bit_isfalse(value_dwords,dwbit(DWORD_Q))) { FAIL(STATUS_GCODE_VALUE_WORD_MISSING); } // [Q word missing]
+      // bit_false(value_dwords,dwbit(DWORD_Q)); // NOTE: Single-meaning value word. Set at end of error-checking.
+    }
   #endif
 
   // [5. Select tool ]: NOT SUPPORTED. Only tracks value. T is negative (done.) Not an integer. Greater than max tool value.

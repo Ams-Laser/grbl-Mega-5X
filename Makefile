@@ -36,9 +36,8 @@ DEVICE_PORT ?= /dev/ttyUSB0
 PROGRAMMER ?= -D -v -c avrisp2 -P $(DEVICE_PORT)
 
 SOURCE    = main.c motion_control.c gcode.c spindle_control.c coolant_control.c digital_control.c\
-            serial.c protocol.c stepper.c eeprom.c settings.c planner.c nuts_bolts.c limits.c \
-            print.c probe.c report.c system.c sleep.c jog.c
-# analog_control.c is in the analog_control branch...
+            analog_control.c serial.c protocol.c stepper.c eeprom.c settings.c planner.c nuts_bolts.c\
+            limits.c print.c probe.c report.c system.c sleep.c jog.c
 
 BUILDDIR = build
 SOURCEDIR = grbl

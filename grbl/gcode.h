@@ -48,7 +48,7 @@
 #define MODAL_GROUP_M9 14 // [M56] Override control
 #define MODAL_GROUP_M10 15 // [M62-M65] Digital output -Non-modal
 #ifdef USE_OUTPUT_PWM
-  #define MODAL_GROUP_M11 16 // [M162-M165] Analog output -Non-modal
+  #define MODAL_GROUP_M11 16 // [M67-M68] Analog output -Non-modal
 #endif
 
 // Define command actions for within execution-type modal groups (motion, stopping, non-modal). Used
