@@ -9,3 +9,4 @@
 "8","Homing fail","Homing fail. Pull off travel failed to clear limit switch. Try increasing pull-off setting or check wiring."
 "9","Homing fail","Homing fail. Could not find limit switch within search distances. Try increasing max travel, decreasing pull-off distance, or check wiring."
 "10","Homing fail","Homing fail. Max travel is shorter than the pull off travel."
+"11","Serial overflow","Serial RX buffer overflow."

@@ -72,6 +72,8 @@ void protocol_main_loop()
   uint8_t line_flags = 0;
   uint8_t char_counter = 0;
   uint8_t c;
+  uint8_t crlf_flag = 0;
+  
   for (;;) {
 
     // Process one line of incoming serial data, as the data becomes available. Performs an
@@ -79,6 +81,14 @@ void protocol_main_loop()
     while((c = serial_read()) != SERIAL_NO_DATA) {
       if ((c == '\n') || (c == '\r')) { // End of line reached
 
+        if (c == '\r') {
+          // Track CR to detect Windows CRLF
+          crlf_flag = 1;
+        } else if (c != '\n') {
+          // This is not a CRLF sequence
+          crlf_flag = 0;
+        }
+        
         protocol_execute_realtime(); // Runtime command check point.
         if (sys.abort) { return; } // Bail to calling function upon system abort
 
@@ -92,8 +102,12 @@ void protocol_main_loop()
           // Report line overflow error.
           report_status_message(STATUS_OVERFLOW);
         } else if (line[0] == 0) {
-          // Empty or comment line. For syncing purposes.
-          report_status_message(STATUS_OK);
+          // Dont send 2 OK when character is LF just after a CR
+          // Send the OK reply when CR is received or if LF is received without CR just before.
+          if ((c == '\r') || ((c == '\n') && (crlf_flag != 1))) {
+            // Empty or comment line. For syncing purposes.
+            report_status_message(STATUS_OK);
+          }
         } else if (line[0] == '$') {
           // Grbl '$' system command
           report_status_message(system_execute_line(line));

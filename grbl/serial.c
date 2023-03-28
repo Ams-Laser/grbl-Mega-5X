@@ -192,6 +192,9 @@ ISR(SERIAL_RX)
         if (next_head != serial_rx_buffer_tail) {
           serial_rx_buffer[serial_rx_buffer_head] = data;
           serial_rx_buffer_head = next_head;
+        } else {
+          // Indicate serial buffer overflow critical event.
+          system_set_exec_alarm(EXEC_ALARM_SERIAL_RX_OVERFLOW);
         }
       }
   }
